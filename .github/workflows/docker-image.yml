@@ -45,7 +45,7 @@ jobs:
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/digitalOcean root@137.184.202.238
         sudo docker login -u ${{ secrets.REGISTRY_USER }} -p ${{ secrets.REGISTRY_PASS }}
         sudo docker ps -aq | xargs --no-run-if-empty docker stop | xargs --no-run-if-empty docker rm 
-        docker system purge
+        docker system prune
         sudo docker run -d -p 4000:4000 $IMAGE_NAME:$IMAGE_TAG_BACK
         sudo docker run -d -p 3000:3000 $IMAGE_NAME:$IMAGE_TAG_FRONT
 
