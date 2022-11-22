@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  api:
+    build: ./backend
+    container_name: back_c
+    ports:
+      - '4000:4000'
+
+  myblog:
+    build: ./frontend
+    container_name: front_c
+    ports:
+      - '3000:3000'
+    stdin_open: true

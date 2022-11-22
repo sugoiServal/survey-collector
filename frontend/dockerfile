@@ -1,0 +1,15 @@
+FROM node:18-alpine   
+
+# all commands are run inside WORKDIR 
+WORKDIR /app
+
+# copy from_dir(path in current file system) to_dir(path in image, relative to WORKDIR)
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "start"]

@@ -1,0 +1,55 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  IMAGE_NAME: mlpppp/survey-collector
+  IMAGE_TAG_BACK: back_latest
+  IMAGE_TAG_FRONT: front_latest
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Push front and back docker image to Dockerhub
+      run:
+        docker login -u ${{ secrets.REGISTRY_USER }} -p ${{ secrets.REGISTRY_PASS }}
+      
+    - name: Build and push the Docker image 
+      run: |
+        docker build -t  $IMAGE_NAME:$IMAGE_TAG_BACK ./backend && docker push $IMAGE_NAME:$IMAGE_TAG_BACK  
+        docker build -t $IMAGE_NAME:$IMAGE_TAG_FRONT ./frontend && docker push $IMAGE_NAME:$IMAGE_TAG_FRONT  
+
+      
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Install SSH key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ${{ secrets.SERVER_SSH }}
+        name: digitalOcean 
+        known_hosts: '~/.ssh/known_hosts'
+    - name: Deploy project image to DigitalOcean
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/digitalOcean root@137.184.202.238
+        sudo docker login -u ${{ secrets.REGISTRY_USER }} -p ${{ secrets.REGISTRY_PASS }}
+        sudo docker ps -aq | xargs --no-run-if-empty docker stop | xargs --no-run-if-empty docker rm 
+        docker system purge
+        sudo docker run -d -p 4000:4000 $IMAGE_NAME:$IMAGE_TAG_BACK
+        sudo docker run -d -p 3000:3000 $IMAGE_NAME:$IMAGE_TAG_FRONT
+
+
+
+      
+    

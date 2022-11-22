@@ -1,0 +1,15 @@
+# will be downloaded if not already done
+FROM node:18-alpine   
+
+# all commands are run inside WORKDIR 
+WORKDIR /app
+
+COPY package.json .
+RUN npm install  
+
+COPY . . 
+
+EXPOSE 4000
+
+# command to run on evaluation time (after been built)   
+CMD ["npm", "run", "dev"]
