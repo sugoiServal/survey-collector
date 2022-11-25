@@ -6,13 +6,22 @@ const router = express.Router()
 // ? for test only
 router.get('/test', 
     (req, res) => {
-        res.json('test route')
+        const user = {"aa": '123'}
+        console.log(typeof user)
+        res.json(user)
     }
 )
 
-router.get('/test_user', 
+router.get('/get_user', 
     (req, res) => {
-        res.send(req.user)
+        var user = req.user
+        if (user === undefined) {
+            user = {ok: false}
+        } else {
+            user = {ok: true, ...user}
+        }
+        console.log(user)
+        res.json(user)
     }
 )
 
@@ -23,7 +32,10 @@ router.get('/google',
 )
 
 router.get('/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/login' })
+    passport.authenticate('google', { failureRedirect: '/google' }),
+    (req, res) => {
+        res.redirect(`${process.env.FRONT_URL}/surveys`)
+    }
 );
 
 router.get('/logout', (req, res) => {

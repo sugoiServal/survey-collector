@@ -1,0 +1,11 @@
+.brand-logo {
+    font-size: 2rem;
+    color: antiquewhite;
+}
+
+.nav {
+    background: green; 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; 
+}

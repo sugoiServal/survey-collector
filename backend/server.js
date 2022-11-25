@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 require('./services/passport');
 const mongoose = require('mongoose')
+const cors = require("cors")
 const session = require('cookie-session')
 const passport = require('passport')
 
@@ -14,6 +15,10 @@ const authRoutes = require('./routes/authRoute')
 const app = express()
 
 // middlewares
+app.use(cors({
+    origin: process.env.FRONT_URL,
+    credentials:true
+})) 
 app.use(express.json()) 
 app.use((req, res, next) => {
     console.log(req.path, req.method)
