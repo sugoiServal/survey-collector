@@ -30,28 +30,36 @@ export default function DashboardPg() {
   }
   return (
     <>
-      <button onClick={handleNewServeyIcon}>CreateNew</button>
       {surveyList &&
         <div className='bg-light mt-5'>
             <div class="container-lg text-center">
-              <h2>Your dashboard</h2>
+              <h2 className='m-4'>Your dashboard</h2>
               <p class="lead text-muted">Active Surveys</p>
             </div>
-            <div className="row my-5 align-items-center justify-content-center g-1">
-              {surveyList && surveyList.map(survey => (
-                <div class="col-8 col-lg-4 col-xl-3">
-                  <div className="card border-1 border-primary" key={survey._id}>
-                    <p>{survey.title}</p>
-                    <p>{survey.body}</p>
-                    <p>{`Sent On::${survey.dateSent.slice(0,survey.dateSent.indexOf('T'))}`}</p>
-                    <span>{`YES:${survey.yes}`}</span>
-                    <span>{`NO:${survey.no}`}</span>
+            <div className="container-lg m-auto">
+              <div className="row my-5 align-items-center justify-content-center g-1" >
+                {surveyList && surveyList.map(survey => (
+                  <div class="col-8 my-2">
+                    <div className="card shadow-sm" key={survey._id}>
+                      <div className="card-body">
+                        <div className="d-flex flex-column">
+                            <h3 className='fs-2 display-6'>{survey.title}</h3>
+                            <h6 className='card-subtitle text-muted' >{survey.body}</h6>
+                            <span className='align-self-end'>{`Sent On: ${survey.dateSent.slice(0,survey.dateSent.indexOf('T'))}`}</span>
+                            <hr/>
+                        </div>
+                            <span className="fs-6 text-warning d-inline">{`YES :${survey.yes}`}</span>
+                            <span className="fs-6 text-warning d-inline ms-3">{`NO :${survey.no}`}</span>
+                      </div>
+
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>   
+                ))}
+              </div> 
+            </div>  
         </div>
       }
+      <button onClick={handleNewServeyIcon}>CreateNew</button>
     </>
   )
 }

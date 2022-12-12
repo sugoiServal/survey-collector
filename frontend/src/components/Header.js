@@ -27,7 +27,7 @@ export default function Header() {
     SetCreditModalOpen(true)
     
   }
-
+  console.log(creditModalOpen);
 
   return (
     <nav className='navbar navbar-expand-md bg-dark sticky-top navbar-dark'>
@@ -39,7 +39,7 @@ export default function Header() {
           </button>
         
           {!user && 
-            <a className='btn btn-success' href={`${process.env.REACT_APP_API_URL}/auth/google`}>Signup with Google</a>
+            <a className='btn btn-success' href={`${process.env.REACT_APP_API_URL}/auth/google`}>Sign with Google</a>
           }
           
           {user && 

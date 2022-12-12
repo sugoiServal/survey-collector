@@ -69,63 +69,76 @@ export default function CreateSurveyPg() {
   }
 
   return (
-    <div>
+    <div className='container-lg'>
         { !isFinalize && 
-          <form onSubmit={handleNext}>
+          <form className='mt-4' onSubmit={handleNext}>
             <div className="create-form">
               <h3>Create a new Project</h3>
 
-              <div className="form-field">
-                <label htmlFor="Title">Campaign Title:</label>
+              <div className="form-field my-4">    
+                <label className='display-6 fs-4 mb-3' for="Title">Campaign Title:</label>  
                 <input type="text" id="Title" required
+                        className='form-control'
+                        placeholder="eg, Paid user feedback"
                         value={title}
                         onChange={(e)=>setTitle(e.target.value)}/>
               </div>
 
-              <div className="form-field">
-                <label htmlFor="subject">Subject Line:</label>
+              <div className="form-field  my-4">
+                <label className='display-6 fs-4 mb-3' htmlFor="subject">Subject Line:</label>
                 <input type="text" id="subject" required
+                        className='form-control'
+                        placeholder="eg, Thank you for choosing SurveyCollector, We want to hear from you!"
                         value={subject}
                         onChange={(e)=>setSubject(e.target.value)}/>
               </div>
 
-              <div className="form-field">
-                <label htmlFor="body">Email Body:</label>
+              <div className="form-field  my-4">
+                <label className='display-6 fs-4 mb-3' htmlFor="body">Email Body:</label>
                 <input type="text" id="body" required
+                        className='form-control'
+                        placeholder="eg, We'd like your input!
+                        Please answer the following question:"
                         value={body}
                         onChange={(e)=>setBody(e.target.value)}/>
               </div>
 
               
-              <div className="form-field">
-                <label htmlFor="recipients">{"Recipient List(separate by ','):"}</label>
+              <div className="form-field  my-4">
+                <label  className='display-6 fs-4 mb-3' htmlFor="recipients">{"Recipient List(separate by ','):"}</label>
                 <input type="text" id="recipients" required
+                        className='form-control'
+                        placeholder="emails"               
                         value={recipients}
                         onChange={(e)=>setRecipients(e.target.value)}/>
               </div>
               { formError && <p>{formError}</p> }
-              <button type="button" onClick={()=>{navigate('/surveys')}}>Cancel</button>
-              <button>Next</button>
+              <button type="button" className='btn btn-lg btn-outline-danger' onClick={()=>{navigate('/surveys')}}>Cancel</button>
+              <button className='btn btn-lg btn-outline-primary ms-4'>Next</button>
             </div> 
           </form>
         }
 
         { isFinalize && 
-          <div >
-            <h2>Please confirm your entries</h2>
+          <div className='container-lg'>
+            <h2 className='display-5 mb-5 mt-4'>Please confirm your entries</h2>
             <h3>Campaign Title</h3>
             <p>{title}</p>
+            <br />
             <h3>Subject Line</h3>
             <p>{subject}</p>
+            <br />
             <h3>Email Body</h3>
             <p>{body}</p>
+            <br />
             <h3>Recipient List</h3>
             <p>{recipients}</p>
+            <br />
             { creditError && <p>{creditError}</p> }
             { infoMessage && <p>{infoMessage}</p> }
             { isSuccess && <p>{'redirect to your dashboard in 3 seconds.'}</p>}
-            <button type="button" onClick={()=>{setIsFinalize(false)}}>Back</button>
-            <button type="button" onClick={handleSendSurvey}>SEND SURVEY</button>
+            <button className='btn btn-lg btn-outline-danger' type="button" onClick={()=>{setIsFinalize(false)}}>Back</button>
+            <button className='btn btn-lg btn-outline-primary ms-4' type="button" onClick={handleSendSurvey}>SEND SURVEY!</button>
           </div>
 
 

@@ -15,6 +15,7 @@ router.get('/',
 )
 
 router.post('/checkout', [express.json(), requireAuth], async (req, res) => {
+    console.log(req.body)
     const credit = req.body.credit
     try {
         const session = await stripe.checkout.sessions.create({

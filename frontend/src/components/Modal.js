@@ -8,7 +8,7 @@ export default function Modal(props) {
     }
     return(   
         <div className="modal-overlay">
-            <div className="card modal">
+            <div className="modal_ctm">
                 {props.children}
             </div> 
         </div>               
