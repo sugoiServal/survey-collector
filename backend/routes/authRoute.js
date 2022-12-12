@@ -1,7 +1,9 @@
 const express = require('express')
 const passport = require('passport')
-
 const router = express.Router()
+
+const requireAuth = require('../middleware/requireAuth')
+
 
 // ? for test only
 router.get('/test', 
@@ -12,7 +14,7 @@ router.get('/test',
     }
 )
 
-router.get('/get_user', 
+router.get('/get_user', requireAuth,
     (req, res) => {
         var user = req.user
         if (user === undefined) {
@@ -20,7 +22,6 @@ router.get('/get_user',
         } else {
             user = {ok: true, ...user}
         }
-        console.log(user)
         res.json(user)
     }
 )

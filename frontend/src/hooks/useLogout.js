@@ -13,7 +13,7 @@ export const useLogout = () => {
         setIsPending(true)
 
         try {
-            // TODO logout with fetch
+            // logout with fetch
             const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/logout`, {
                 method: 'GET',
                 credentials: 'include' 
@@ -35,6 +35,7 @@ export const useLogout = () => {
                 setIsPending(false)
             }
         }
+        navigate(0)
     }
 
     useEffect(() => {

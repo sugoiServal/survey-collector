@@ -1,40 +1,57 @@
-import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
+import {BrowserRouter, Routes, Route, Navigate, Redirect} from 'react-router-dom'
+// pages
 import LandingPg from './pages/LandingPg'  
-import DashboardPg from './pages/DashboardPg'  
-import CreateSurveyPg from './pages/CreateSurveyPg'  
+import DashboardPg from './pages/Survey/DashboardPg'  
+import CreateSurveyPg from './pages/Survey/CreateSurveyPg'  
+import PaySuccessPg from './pages/Payment/PaySuccessPg'  
+import NotFoundPg from './pages/NotFoundPg'  
+// components
 import Header from './components/Header'
 import { useSubscribeAuthContext } from './hooks/useSubscribeAuthContext'
-// require ('./configs/env.js')
+require ('./configs/env.js')
 function App() {
   const { user, authIsReady } = useSubscribeAuthContext()
+  // TODO delete this clg
   authIsReady && console.log(user)
-  console.log(process.env.REACT_APP_API_URL)
+
   return (
     <div className="App">
       {authIsReady &&
-        <BrowserRouter>
-          <Header />
-          <div className="page">
-            <Routes>
-            <Route 
-                path="/"
-                element={<LandingPg />} 
-              />
+          <BrowserRouter>
+            <Header />
+            <div className="page">
+              <Routes>
+              <Route 
+                  path="/"
+                  element={<LandingPg />} 
+                />
 
-            <Route 
-                path="/surveys"
-                element={user ? <DashboardPg /> : <Navigate to="/" />} 
-              />  
-            <Route 
-                path="/surveys/new"
-                element={user ? <CreateSurveyPg /> : <Navigate to="/" />} 
-              />  
+              <Route 
+                  path="/surveys"
+                  element={user ? <DashboardPg /> : <Navigate to="/" />} 
+                />  
+              <Route 
+                  path="/surveys/new"
+                  element={user ? <CreateSurveyPg /> : <Navigate to="/" />} 
+                />  
+                
+              <Route path="/checkout/success"
+                element={<PaySuccessPg/>}
+              /> 
+              
+              <Route path="/404"
+                element={<NotFoundPg/>}
+              />   
 
-            </Routes>
-          </div>
-        
-        </BrowserRouter>
-      }
+              <Route path="*"
+                element={<Navigate to="/404"/> }
+              />   
+
+              </Routes>
+            </div>
+          
+          </BrowserRouter>
+        }
     </div>
   );
 }

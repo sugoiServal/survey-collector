@@ -21,7 +21,10 @@ passport.use(new GoogleStrategy({
         const user = await userModel.findOne({googleId})
         if (!user) {
             try {
-                const user = await userModel.create({googleId})
+                const user = await userModel.create({
+                    googleId,
+                    credits: 0,
+                })
                 console.log('user created')
                 cb(null, user)
             } catch (error) {
@@ -30,8 +33,9 @@ passport.use(new GoogleStrategy({
             }
         } else {
             console.log('user exist');
-            console.log(user.id);
-            console.log(user.googleId);
+            console.log('passport.js -- user.id', user.id);   // mongo ID
+            console.log('passport.js -- user.googleId', user.googleId);  // Google ID
+            console.log('passport.js -- user.credits', user.credits);  // credits
             cb(null, user)
         }
     }

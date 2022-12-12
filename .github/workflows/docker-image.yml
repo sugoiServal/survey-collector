@@ -23,33 +23,33 @@ jobs:
       run:
         docker login -u ${{ secrets.REGISTRY_USER }} -p ${{ secrets.REGISTRY_PASS }}
       
-    - name: Build and push the Docker image 
-      run: |
-        docker build -t  $IMAGE_NAME:$IMAGE_TAG_BACK ./backend && docker push $IMAGE_NAME:$IMAGE_TAG_BACK  
-        docker build -t $IMAGE_NAME:$IMAGE_TAG_FRONT ./frontend && docker push $IMAGE_NAME:$IMAGE_TAG_FRONT  
+    # - name: Build and push the Docker image 
+    #   run: |
+    #     docker build -t  $IMAGE_NAME:$IMAGE_TAG_BACK ./backend && docker push $IMAGE_NAME:$IMAGE_TAG_BACK  
+    #     docker build -t $IMAGE_NAME:$IMAGE_TAG_FRONT ./frontend && docker push $IMAGE_NAME:$IMAGE_TAG_FRONT  
 
       
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
     
-    steps:
-    - name: Install SSH key
-      uses: shimataro/ssh-key-action@v2
-      with:
-        key: ${{ secrets.SERVER_SSH }}
-        name: digitalOcean 
-        known_hosts: '~/.ssh/known_hosts'
-    - name: Deploy project image to DigitalOcean
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/digitalOcean root@137.184.202.238
-        sudo docker login -u ${{ secrets.REGISTRY_USER }} -p ${{ secrets.REGISTRY_PASS }}
-        sudo docker ps -aq | xargs --no-run-if-empty docker stop | xargs --no-run-if-empty docker rm 
-        sudo docker images -aq | xargs --no-run-if-empty docker image rm -f
-        sudo docker run -p 4000:4000 \
-          --env-file /root/survey_collector_config/.env \
-          $IMAGE_NAME:$IMAGE_TAG_BACK
-        sudo docker run -d -p 3000:3000 $IMAGE_NAME:$IMAGE_TAG_FRONT
+  #   steps:
+  #   - name: Install SSH key
+  #     uses: shimataro/ssh-key-action@v2
+  #     with:
+  #       key: ${{ secrets.SERVER_SSH }}
+  #       name: digitalOcean 
+  #       known_hosts: '~/.ssh/known_hosts'
+  #   - name: Deploy project image to DigitalOcean
+  #     run: |
+  #       ssh -o StrictHostKeyChecking=no -i ~/.ssh/digitalOcean root@137.184.202.238
+  #       sudo docker login -u ${{ secrets.REGISTRY_USER }} -p ${{ secrets.REGISTRY_PASS }}
+  #       sudo docker ps -aq | xargs --no-run-if-empty docker stop | xargs --no-run-if-empty docker rm 
+  #       sudo docker images -aq | xargs --no-run-if-empty docker image rm -f
+  #       sudo docker run -p 4000:4000 \
+  #         --env-file /root/survey_collector_config/.env \
+  #         $IMAGE_NAME:$IMAGE_TAG_BACK
+  #       sudo docker run -d -p 3000:3000 $IMAGE_NAME:$IMAGE_TAG_FRONT
 
 
 

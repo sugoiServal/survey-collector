@@ -1,5 +1,6 @@
 // ! imports
 require('dotenv').config();
+const {testSend} = require('./services/sendgrid')
 const express = require('express');
 require('./services/passport');
 const mongoose = require('mongoose')
@@ -9,17 +10,20 @@ const passport = require('passport')
 
 // router
 const authRoutes = require('./routes/authRoute')
+const creditRoutes = require('./routes/creditRoute')
+const surveyRoutes = require('./routes/surveyRoute')
 
 // ! server setup
 // create express app
 const app = express()
-
+// testSend()
 // middlewares
 app.use(cors({
     origin: process.env.FRONT_URL,
     credentials:true
 })) 
-app.use(express.json()) 
+
+
 app.use((req, res, next) => {
     console.log(req.path, req.method)
     next()
@@ -58,7 +62,11 @@ app.get('/', (req, res)=>{
 
 // auth routes
 app.use('/auth', authRoutes)
+app.use('/api/credit', creditRoutes)
+app.use('/api/surveys', surveyRoutes)
+//! random tests
 
+// console.log(mongoose.Types.ObjectId.isValid('6387c8627848c76b042945c6'));
 
 // ! listen
 app.listen(process.env.PORT, ()=>{

@@ -6,6 +6,10 @@ const userSchema = new Schema({
         required: true,
         unique: true
       },
+    credits: {
+        type: Number,
+        require: true
+    }
 })
 
 module.exports = mongoose.model('User', userSchema)

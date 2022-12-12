@@ -1,15 +1,20 @@
 import React from 'react'
 import { useSubscribeAuthContext } from '../hooks/useSubscribeAuthContext'
-import './LandingPg.css'
+
 export default function LandingPg() {
   const { user } = useSubscribeAuthContext()
+
   return (
-    <div>
-      <h1 id="landing">
-        SurveyCollector!!
+    <div className='container-lg mt-5 text-center text-md-start'>
+      <h1 className='display-2'>
+        SurveyCollector!@
       </h1>
-      <p>Collect feedback from your</p>
-      {!user && <a href={`${process.env.REACT_APP_API_URL}/auth/google`}>signin with google</a>} 
+      <p className='display-5'>
+        Collect feedback from your customers
+      </p>
+      {/* todo add a login page ref https://stackoverflow.com/users/signup?ssrc=head&returnurl=https%3a%2f%2fstackoverflow.com%2fquestions%2f56061590%2fwhat-is-difference-between-reactstrap-and-react-bootstrap */}
+      <a href={user ? '/surveys' : `${process.env.REACT_APP_API_URL}/auth/google`} className='btn btn-lg btn-secondary my-4'>Try it Now!</a>
+
     </div>
   )
 }
