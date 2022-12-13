@@ -39,7 +39,7 @@ export default function Header() {
           </button>
         
           {!user && 
-            <a className='btn btn-success' href={`${process.env.REACT_APP_API_URL}/auth/google`}>Sign with Google</a>
+            <a className='btn btn-success' href={`/login`}>Sign ins</a>
           }
           
           {user && 

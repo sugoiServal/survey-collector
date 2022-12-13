@@ -1,12 +1,9 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy
+const FacebookStrategy = require('passport-facebook').Strategy
 const passport = require('passport')
 require('dotenv').config();
 const mongoose = require('mongoose')
 const userModel = require('../models/userModel') 
-
-// auth: setup google API for OAuth
-// passport setup
-    // Google OAuth API: console.developers.google.com
 
 
 
@@ -17,13 +14,14 @@ passport.use(new GoogleStrategy({
     },
 
     async (accessToken, refreshToken, profile, cb) => {
-        const googleId = profile.id
-        const user = await userModel.findOne({googleId})
+        const uid = profile.id
+        const user = await userModel.findOne({uid, authType:'google'})
         if (!user) {
             try {
                 const user = await userModel.create({
-                    googleId,
+                    uid,
                     credits: 0,
+                    authType:'google'
                 })
                 console.log('user created')
                 cb(null, user)
@@ -34,12 +32,50 @@ passport.use(new GoogleStrategy({
         } else {
             console.log('user exist');
             console.log('passport.js -- user.id', user.id);   // mongo ID
-            console.log('passport.js -- user.googleId', user.googleId);  // Google ID
+            console.log('passport.js -- user.uid', user.uid);  // Google ID
             console.log('passport.js -- user.credits', user.credits);  // credits
             cb(null, user)
         }
     }
 ));
+
+passport.use(new FacebookStrategy({
+        clientID: process.env.FACEBOOK_APP_ID,
+        clientSecret: process.env.FACEBOOK_APP_SECRET,
+        callbackURL: "/auth/facebook/callback"
+    },
+    async (accessToken, refreshToken, profile, cb) => {
+        console.log(profile);
+        const uid = profile.id
+        const user = await userModel.findOne({uid,  authType:'facebook'})
+        if (!user) {
+            try {
+                const user = await userModel.create({
+                    uid,
+                    credits: 0,
+                    authType:'facebook'
+                })
+                console.log('user created')
+                cb(null, user)
+            } catch (error) {
+                console.log('cant not create user')
+                cb(error, null)
+            }
+        } else {
+            console.log('user exist');
+            console.log('passport.js -- user.id', user.id);   // mongo ID
+            console.log('passport.js -- user.uid', user.uid);  // facebook ID
+            console.log('passport.js -- user.authType', user.authType);  // Google ID
+            console.log('passport.js -- user.credits', user.credits);  // credits
+            cb(null, user)
+        }
+    }
+));
+
+
+
+
+
 
 // user.id is mongoDB _id
 passport.serializeUser(function(user, cb) {

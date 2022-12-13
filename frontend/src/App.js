@@ -4,7 +4,8 @@ import LandingPg from './pages/LandingPg'
 import DashboardPg from './pages/Survey/DashboardPg'  
 import CreateSurveyPg from './pages/Survey/CreateSurveyPg'  
 import PaySuccessPg from './pages/Payment/PaySuccessPg'  
-import NotFoundPg from './pages/NotFoundPg'  
+import NotFoundPg from './pages/NotFoundPg' 
+import LoginPg from './pages/LoginPg' 
 // components
 import Header from './components/Header'
 import { useSubscribeAuthContext } from './hooks/useSubscribeAuthContext'
@@ -38,7 +39,10 @@ function App() {
               <Route path="/checkout/success"
                 element={<PaySuccessPg/>}
               /> 
-              
+              <Route path="/login"
+                element={!user ? <LoginPg/>:<Navigate to="/"/>}
+              /> 
+              LoginPg
               <Route path="/404"
                 element={<NotFoundPg/>}
               />   

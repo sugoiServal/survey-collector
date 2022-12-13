@@ -30,8 +30,15 @@ export default function DashboardPg() {
   }
   return (
     <>
+      {user &&
+        <div className="container-lg" id='info'>
+          <div className="d-flex flex-column">
+              <p className="lead align-self-end">{`Login as ${user.authType}:`} <u>{`${user.uid}`}</u></p>
+          </div>
+        </div>
+      }
       {surveyList &&
-        <div className='bg-light mt-5'>
+        <div className='bg-light'>
             <div class="container-lg text-center">
               <h2 className='m-4'>Your dashboard</h2>
               <p class="lead text-muted">Active Surveys</p>

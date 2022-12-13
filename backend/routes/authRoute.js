@@ -26,6 +26,7 @@ router.get('/get_user', requireAuth,
     }
 )
 
+// ! google oauth
 router.get('/google', 
     passport.authenticate('google', {
         scope:['profile']
@@ -33,12 +34,25 @@ router.get('/google',
 )
 
 router.get('/google/callback', 
-    passport.authenticate('google', { failureRedirect: '/google' }),
+    passport.authenticate('google', { failureRedirect: '/login' }),
     (req, res) => {
         res.redirect(`${process.env.FRONT_URL}/surveys`)
     }
 );
 
+// ! Facebook
+router.get('/facebook', 
+    passport.authenticate('facebook')
+)
+
+router.get('/facebook/callback', 
+    passport.authenticate('facebook', { failureRedirect: '/login' }),
+    (req, res) => {
+        res.redirect(`${process.env.FRONT_URL}/surveys`)
+    }
+);
+
+// logout
 router.get('/logout', (req, res) => {
     req.logout()
     res.send(req.user)

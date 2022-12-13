@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const userSchema = new Schema({    
-    googleId: {
+    uid: {
         type: String,
         required: true,
         unique: true
@@ -9,6 +9,11 @@ const userSchema = new Schema({
     credits: {
         type: Number,
         require: true
+    },
+    authType: {
+        type: String,
+        required: true,
+        unique: true
     }
 })
 
