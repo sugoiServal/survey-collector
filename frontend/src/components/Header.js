@@ -25,9 +25,7 @@ export default function Header() {
   const handleCreditModal = async () => {
     console.log("handleCreditModal")
     SetCreditModalOpen(true)
-    
   }
-  console.log(creditModalOpen);
 
   return (
     <nav className='navbar navbar-expand-md bg-dark sticky-top navbar-dark'>
@@ -39,7 +37,7 @@ export default function Header() {
           </button>
         
           {!user && 
-            <a className='btn btn-success' href={`/login`}>Sign ins</a>
+            <a className='btn btn-success' href={`/login`}>Signup/Login</a>
           }
           
           {user && 

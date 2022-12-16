@@ -35,7 +35,6 @@ router.post('/checkout', [express.json(), requireAuth], async (req, res) => {
             success_url: `${process.env.FRONT_URL}/checkout/success`,
             cancel_url: `${process.env.FRONT_URL}/surveys`
         })
-        console.log(session.url)
         res.json({url: session.url})
         
     } catch (e) {

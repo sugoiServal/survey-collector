@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSubscribeAuthContext } from '../hooks/useSubscribeAuthContext'
 import "./CreditCartModal.css"
+const authHeaderConfig = require('../utils/authHeaderConfig')
  
 
 export default function CreditCartModal() {
@@ -18,9 +19,9 @@ export default function CreditCartModal() {
         const res = await fetch(`${process.env.REACT_APP_API_URL}/api/credit/checkout`, {
             method: "POST",
             credentials: 'include' ,
-            headers: {
+            headers: authHeaderConfig(user, {
                 'Content-Type': 'application/json'
-            },
+            }),
             body: JSON.stringify({
                 'credit': amount,
                 '_id': user._id,

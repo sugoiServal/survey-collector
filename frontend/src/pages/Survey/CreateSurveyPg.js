@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react'
 import { useSubscribeAuthContext } from '../../hooks/useSubscribeAuthContext'
 import { useNavigate } from 'react-router-dom';
 import testEmail from './utils/validateEmails'
+const authHeaderConfig = require('../../utils/authHeaderConfig')
 
 export default function CreateSurveyPg() {
   const { user, authIsReady } = useSubscribeAuthContext()
@@ -40,12 +41,10 @@ export default function CreateSurveyPg() {
       body,
       "recipients":recipients.split(',').map((email)=>(email.trim()))
     }
-    console.log(message);
+
     const res = await fetch(`${process.env.REACT_APP_API_URL}/api/surveys`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-       },
+      headers: authHeaderConfig(user, {'Content-Type': 'application/json'}),
       credentials: 'include' ,
       body: JSON.stringify({message})
     });
@@ -134,8 +133,8 @@ export default function CreateSurveyPg() {
             <h3>Recipient List</h3>
             <p>{recipients}</p>
             <br />
-            { creditError && <p>{creditError}</p> }
-            { infoMessage && <p>{infoMessage}</p> }
+            { creditError && <p className='alert alert-warning'>{creditError}</p> }
+            { infoMessage && <p className='alert alert-success'>{infoMessage}</p> }
             { isSuccess && <p>{'redirect to your dashboard in 3 seconds.'}</p>}
             <button className='btn btn-lg btn-outline-danger' type="button" onClick={()=>{setIsFinalize(false)}}>Back</button>
             <button className='btn btn-lg btn-outline-primary ms-4' type="button" onClick={handleSendSurvey}>SEND SURVEY!</button>

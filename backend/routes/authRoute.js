@@ -1,7 +1,7 @@
 const express = require('express')
 const passport = require('passport')
 const router = express.Router()
-
+const { signinUser } = require('../controllers/passwordAuthController')
 const requireAuth = require('../middleware/requireAuth')
 
 
@@ -22,6 +22,7 @@ router.get('/get_user', requireAuth,
         } else {
             user = {ok: true, ...user}
         }
+        console.log(user)
         res.json(user)
     }
 )
@@ -52,8 +53,29 @@ router.get('/facebook/callback',
     }
 );
 
+// ! github
+router.get('/github', 
+    passport.authenticate('github', { scope: [ 'user:email' ] }));
+
+// the API is intentionally exposed to the Oauth service provider 
+router.get('/github/callback', 
+    passport.authenticate('github', { failureRedirect: '/login' }),
+    (req, res) => {
+        res.redirect(`${process.env.FRONT_URL}/surveys`)
+    }
+);
+
+router.get('/github/webhook', express.json(),
+    (req, res) => {
+        console.log(req.body)
+    }
+);
+
+// ! password
+router.post('/password', express.json(), signinUser)
+
 // logout
-router.get('/logout', (req, res) => {
+router.post('/logout', (req, res) => {
     req.logout()
     res.send(req.user)
 })

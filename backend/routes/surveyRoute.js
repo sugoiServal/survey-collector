@@ -7,13 +7,7 @@ const {sendSurvey} = require('../services/sendgrid')
 const { Path } = require('path-parser');
 const _ = require('lodash');
 
-// ? for test only
-router.get('/test', 
-    (req, res) => {
-        const resJson = {"aa": '123'}
-        res.json(req.user)
-    }
-)
+
 // return list of surveys created by the current user
 router.get('/', [express.json(), requireAuth],
    async (req, res) => {

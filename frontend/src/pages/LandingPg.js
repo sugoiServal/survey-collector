@@ -3,7 +3,6 @@ import { useSubscribeAuthContext } from '../hooks/useSubscribeAuthContext'
 
 export default function LandingPg() {
   const { user } = useSubscribeAuthContext()
-  console.log(user);
   return (
     <div className='container-lg mt-5 text-center text-md-start'>
       <h1 className='display-2'>

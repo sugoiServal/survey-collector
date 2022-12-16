@@ -38,6 +38,7 @@ app.use(session({
  }));
 
 app.use(passport.initialize())
+//? "The session itself can be authenticated using the built-in session strategy, Because an authenticated session is typically needed for the majority of routes in an application, it is common to use this as application-level middleware, after session middleware."
 app.use(passport.session())
 
 

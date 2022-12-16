@@ -12,24 +12,36 @@ export const useLogout = () => {
         setError(null)
         setIsPending(true)
 
+        // check if is jwt
+        const userSession = JSON.parse(localStorage.getItem('user'))
+        if (userSession) {
+            localStorage.removeItem('user')
+            dispatch({ type: 'LOGOUT' })
+            navigate(0)
+            if (!isCancelled) {
+                setIsPending(false)
+                setError(null)
+            } 
+            return 
+        }
+        // not jwt, try passport session logout
         try {
             // logout with fetch
             const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/logout`, {
-                method: 'GET',
+                method: 'POST',
                 credentials: 'include' 
             })
 
             // dispatch logout action
             dispatch({ type: 'LOGOUT' })
-            // ? dispatch ready or not
-            navigate('/')
+            dispatch({ type: 'AUTH_IS_READY' })
+            
             // update state
             if (!isCancelled) {
                 setIsPending(false)
                 setError(null)
             } 
-        } 
-        catch(err) {
+        } catch(err) {
             if (!isCancelled) {
                 setError(err.message)
                 setIsPending(false)

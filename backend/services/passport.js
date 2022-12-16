@@ -1,8 +1,9 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy
 const FacebookStrategy = require('passport-facebook').Strategy
+const GithubStrategy = require('passport-github2').Strategy
+const bodyParser = require("body-parser");
 const passport = require('passport')
 require('dotenv').config();
-const mongoose = require('mongoose')
 const userModel = require('../models/userModel') 
 
 
@@ -73,16 +74,54 @@ passport.use(new FacebookStrategy({
 ));
 
 
+passport.use(new GithubStrategy({
+        clientID: process.env.GITHUB_CLIENT_ID,
+        clientSecret: process.env.GITHUB_CLIENT_SECRET,
+        callbackURL: "/auth/github/callback"
+    },
+
+    async (accessToken, refreshToken, profile, cb) => {
+        const uid = profile.id
+        const user = await userModel.findOne({uid, authType:'github'})
+        if (!user) {
+            try {
+                const user = await userModel.create({
+                    uid,
+                    credits: 0,
+                    authType:'github'
+                })
+                console.log('user created')
+                cb(null, user)
+            } catch (error) {
+                console.log('cant not create user')
+                cb(error, null)
+            }
+        } else {
+            console.log('user exist');
+            console.log('passport.js -- user.id', user.id);   // mongo ID
+            console.log('passport.js -- user.uid', user.uid);  // github ID
+            console.log('passport.js -- user.credits', user.credits);  // credits
+            cb(null, user)
+        }
+    }
+));
 
 
 
 
-// user.id is mongoDB _id
-passport.serializeUser(function(user, cb) {
-    cb(null, user.id);
+// serialize once when the auth success first time, and serialized data stored inside the cookie session
+    // subsequent user access only involves deserialization
+
+passport.serializeUser(function(userDoc, cb) {
+    // user is the userModel object
+    cb(null, 
+        // ? this doc is the info that's stored in the session cookie(after serialized)
+        {                           
+            id : userDoc._id
+        });
 });
   
-passport.deserializeUser(async function(id, cb) {
-    const user = await userModel.findById(id)
-    cb(null, user);
+passport.deserializeUser(async function(user, cb) {
+    const userDoc = await userModel.findById(user.id)
+    cb(null, userDoc);
 });

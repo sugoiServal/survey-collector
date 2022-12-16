@@ -1,28 +1,31 @@
 import { useSubscribeAuthContext } from '../../hooks/useSubscribeAuthContext'
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-
+const authHeaderConfig = require('../../utils/authHeaderConfig')
 export default function DashboardPg() {
   const { user, authIsReady } = useSubscribeAuthContext()
   const [ surveyList, setSurveyList ] = useState('')
+  const [error, setError] = useState('')
   useEffect(() => {
     // fetch all campaign from server
     const getSurveys = async () => {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/api/surveys/`, {
+        headers: authHeaderConfig(user, {'Content-Type': 'application/json'}),
         method: "GET",
         credentials: 'include' ,
       })
+
+      const msg = await res.json()
       if (res.ok) {
-        const msg = await res.json()
         if(msg.status === 'ok') {
           setSurveyList(msg.userSurvey)
         }
       } else { 
-        console.log("ERROR!!", res);
+        setError(msg.error)
       }
     }
     getSurveys()
-  }, [])
+  }, [authIsReady])
 
   const navigate = useNavigate();
   const handleNewServeyIcon = () => {
@@ -37,6 +40,7 @@ export default function DashboardPg() {
           </div>
         </div>
       }
+      {error && <div className="alert alert-warning">{error}</div> }
       {surveyList &&
         <div className='bg-light'>
             <div class="container-lg text-center">

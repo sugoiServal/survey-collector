@@ -12,19 +12,16 @@ import { useSubscribeAuthContext } from './hooks/useSubscribeAuthContext'
 require ('./configs/env.js')
 function App() {
   const { user, authIsReady } = useSubscribeAuthContext()
-  // TODO delete this clg
-  authIsReady && console.log(user)
-
   return (
     <div className="App">
-      {authIsReady &&
+      {authIsReady  &&
           <BrowserRouter>
             <Header />
             <div className="page">
               <Routes>
               <Route 
                   path="/"
-                  element={<LandingPg />} 
+                  element={!user ? <LandingPg /> : <Navigate to="/surveys"/>} 
                 />
 
               <Route 
