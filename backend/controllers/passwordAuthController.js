@@ -19,7 +19,7 @@ const signinUser = async (req, res) => {
         if (!validator.isEmail(email)) {
             throw Error('Email is not valid')
         }
-        var user = await UserModel.findOne({uid:email, authType:"password"}).lean()
+        var user = await UserModel.findOne({uid:email, authType:"password"}).select("-credits").lean()
     } catch(error) {
         res.status(400).json({error:error.message})
     }
@@ -43,7 +43,7 @@ const signinUser = async (req, res) => {
                         uid:email, 
                         password: hashedPw, authType:"password", 
                         credits: 0,
-                    }).select(["-password"])
+                    }).select(["-password -credits"])
             const JWTtoken = createToken(user._id)
             res.status(200).json({user, JWTtoken})
    

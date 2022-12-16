@@ -12,8 +12,6 @@ export const authReducer = (state, action) => {
       return { ...state, user: null }
     case 'AUTH_IS_READY':
       return { ...state,  authIsReady: true}
-    case 'AUTH_TYPE':
-      return { ...state,  authType: action.payload}
     case 'UPDATE_CREDIT':
       return {...state, credit: action.payload}
     default:
@@ -30,7 +28,6 @@ export const AuthContextProvider = ({ children }) => {
   
 
   useEffect(() => {
-    
     const sessionUser = async () => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/get_user`, {
         method: 'GET',
@@ -49,22 +46,22 @@ export const AuthContextProvider = ({ children }) => {
       const userSession = JSON.parse(localStorage.getItem('user'))
       if (userSession) {
         dispatch({ type: 'LOGIN', payload: userSession }) 
-        dispatch({ type: 'AUTH_IS_READY'})
-        return userSession
+      } else {
+        console.log('Cannot fetch user, not logged in or not signup in backend');
       }
+      dispatch({ type: 'AUTH_IS_READY'})
     }
-       
-    // try JWT 
-    if (state.authType === 'JWT') {
-      const user = JwtUser()
+
+    const authType = localStorage.getItem('authType')
+    if (authType === 'JWT') {
+      JwtUser()
     }
-    else {
-      console.log('Cannot fetch user via JWT, now try session');
+    if (authType === 'session') {
       sessionUser()
     }
   }, [])
 
-  console.log('AuthContext state:', state) 
+  console.table(state) 
   return (
     <AuthContext.Provider value={{ ...state, dispatch }}>
       { children }

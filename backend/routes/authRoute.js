@@ -22,7 +22,6 @@ router.get('/get_user', requireAuth,
         } else {
             user = {ok: true, ...user}
         }
-        console.log(user)
         res.json(user)
     }
 )

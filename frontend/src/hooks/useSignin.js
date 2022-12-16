@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { useSubscribeAuthContext } from './useSubscribeAuthContext'
+import { useNavigate } from 'react-router-dom';
 
 export const useSignin = () => {
+    const navigate = useNavigate()
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(null)
     const { dispatch } = useSubscribeAuthContext()
@@ -28,11 +30,12 @@ export const useSignin = () => {
 
             // update the auth context
             dispatch({type: 'LOGIN', payload: userDoc})
-            dispatch({type: 'AUTH_TYPE', payload: 'JWT'})
 
             // update loading state
             setIsLoading(false)
             console.log("signin OK")
+            // force refresh
+            navigate(0)
         }
     }
 

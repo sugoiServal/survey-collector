@@ -3,14 +3,14 @@ const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY)
 const requireAuth = require('../middleware/requireAuth')
 const router = express.Router()
 const {
-  creditTopUp,
+  creditTopUp
 } = require('../controllers/creditController')
 
 // ? for test only
-router.get('/', 
+router.get('/get_credit', requireAuth, 
     (req, res) => {
-        console.log('receive /api/credit/')
-        res.json({"url": '123'})
+        console.log(req.user)
+        res.json({credits: req.user.credits})
     }
 )
 

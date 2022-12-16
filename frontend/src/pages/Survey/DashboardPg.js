@@ -47,8 +47,10 @@ export default function DashboardPg() {
               <h2 className='m-4'>Your dashboard</h2>
               <p class="lead text-muted">Active Surveys</p>
             </div>
+            
             <div className="container-lg m-auto">
               <div className="row my-5 align-items-center justify-content-center g-1" >
+                <button className='col-8 btn btn-primary btn-lg sticky-bottom' onClick={handleNewServeyIcon}>CreateNew</button>
                 {surveyList && surveyList.map(survey => (
                   <div class="col-8 my-2">
                     <div className="card shadow-sm" key={survey._id}>
@@ -67,10 +69,11 @@ export default function DashboardPg() {
                   </div>
                 ))}
               </div> 
+            
             </div>  
         </div>
       }
-      <button onClick={handleNewServeyIcon}>CreateNew</button>
+      
     </>
   )
 }

@@ -34,7 +34,6 @@ export default function CreateSurveyPg() {
   }
 
   const handleSendSurvey = async () => {
-    console.log("handleSendSurvey");
     const message = {
       title,
       subject,

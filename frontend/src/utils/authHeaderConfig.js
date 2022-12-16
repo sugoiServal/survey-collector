@@ -1,13 +1,17 @@
 
 const authHeaderConfig = (user, headerConfig) => {
-    console.log(user)
-    if (user.JWTtoken) {
+    const authType = localStorage.getItem('authType')
+    
+    if (user.JWTtoken && authType==="JWT") {
         return {
             'Authorization': `Bearer ${user.JWTtoken}`,
             ...headerConfig
         }
-    } else {
+    } 
+    else if (authType==="session") {
         return headerConfig
+    } else {
+        console.log('unknown handler');
     }
 }
 

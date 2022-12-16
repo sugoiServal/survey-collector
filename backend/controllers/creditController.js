@@ -12,9 +12,7 @@ const creditTopUp = async (user_id, amount) => {
 
     if (!user) {
         throw 'non-exist user_id for paid credit! TODO'
-    }
-
-    
+    } 
 }
 
 module.exports = { creditTopUp }

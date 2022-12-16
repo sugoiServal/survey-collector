@@ -32,9 +32,6 @@ passport.use(new GoogleStrategy({
             }
         } else {
             console.log('user exist');
-            console.log('passport.js -- user.id', user.id);   // mongo ID
-            console.log('passport.js -- user.uid', user.uid);  // Google ID
-            console.log('passport.js -- user.credits', user.credits);  // credits
             cb(null, user)
         }
     }
@@ -64,10 +61,6 @@ passport.use(new FacebookStrategy({
             }
         } else {
             console.log('user exist');
-            console.log('passport.js -- user.id', user.id);   // mongo ID
-            console.log('passport.js -- user.uid', user.uid);  // facebook ID
-            console.log('passport.js -- user.authType', user.authType);  // Google ID
-            console.log('passport.js -- user.credits', user.credits);  // credits
             cb(null, user)
         }
     }
@@ -98,9 +91,6 @@ passport.use(new GithubStrategy({
             }
         } else {
             console.log('user exist');
-            console.log('passport.js -- user.id', user.id);   // mongo ID
-            console.log('passport.js -- user.uid', user.uid);  // github ID
-            console.log('passport.js -- user.credits', user.credits);  // credits
             cb(null, user)
         }
     }

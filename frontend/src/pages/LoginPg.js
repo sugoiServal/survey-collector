@@ -8,6 +8,7 @@ export default function LoginPg() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    localStorage.setItem('authType', 'JWT')
     signin(email, password)
   }
 
@@ -23,9 +24,22 @@ export default function LoginPg() {
 
           </div>
           <div className="d-flex flex-column me-1 w-25">
-            <a className='btn btn-secondary my-1 text-dark' style={{background:"white"}} href={`${process.env.REACT_APP_API_URL}/auth/google`}>Sign up with Google </a>
-            <a className='btn btn-success my-1' style={{background:"#314a86"}} href={`${process.env.REACT_APP_API_URL}/auth/facebook`}>Sign up with Facebook  </a>
-            <a className='btn btn-success my-1' style={{background:"black"}} href={`${process.env.REACT_APP_API_URL}/auth/github`}>Sign up with Github  </a>
+            <a className='btn btn-secondary my-1 text-dark' 
+              style={{background:"white"}} 
+              href={`${process.env.REACT_APP_API_URL}/auth/google`}
+              onClick={()=>{localStorage.setItem('authType', 'session')}}>
+              Sign up with Google </a>
+
+            <a className='btn btn-success my-1' 
+              style={{background:"#314a86"}} 
+              href={`${process.env.REACT_APP_API_URL}/auth/facebook` }
+              onClick={()=>{localStorage.setItem('authType', 'session')}}>             
+              Sign up with Facebook  </a>
+            <a className='btn btn-success my-1' 
+              style={{background:"black"}} 
+              href={`${process.env.REACT_APP_API_URL}/auth/github`}
+              onClick={()=>{localStorage.setItem('authType', 'session')}}>
+              Sign up with Github  </a>
             <div className="card mt-3 p-4">
               <form onSubmit={handleSubmit}>        
                 <div className="form-field mb-3">    
