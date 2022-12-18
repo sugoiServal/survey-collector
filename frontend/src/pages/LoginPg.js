@@ -1,17 +1,21 @@
 import { useState } from 'react'
 import { useSignin } from '../hooks/useSignin' 
-
+import {  GoogleReCaptcha } from 'react-google-recaptcha-v3';
 export default function LoginPg() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const { signin, error, isLoading } = useSignin() 
+  const [verfied, setVerifed] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     localStorage.setItem('authType', 'JWT')
     signin(email, password)
   }
-
+  const handleVerify = (value) => {
+    console.log("Captcha value:", value);
+    setVerifed(true);
+  }
   return (
     <div className="container-sm p-4 mt-5">
         <div className="d-flex flex-row justify-content-center align-items-center">
@@ -58,11 +62,14 @@ export default function LoginPg() {
                     <span className="form-text">Passwords must contain at least eight characters, including at least 1 uppercase, 1 symbol and 1 number.</span>
                 </div>
                 {error && <div className="alert alert-danger">{error}</div>}
-
-                <button disabled={isLoading} className='btn btn-primary w-100 mb-2'>Sign up/ Login</button>
+                
+                <GoogleReCaptcha onVerify={handleVerify}><button className='btn'>aa</button></GoogleReCaptcha>
+                
+                <button disabled={isLoading || !verfied} className='btn btn-primary w-100 mb-2'>Sign up/ Login</button>
                 <p className="form-text">By clicking “Sign up”, you agree to our <a href="#">terms of service</a>, <a href="#">privacy policy</a> and <a href="#">cookie policy</a></p>
                 
               </form>
+
             </div>
           </div>
         </div>
