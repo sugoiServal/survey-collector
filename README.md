@@ -30,10 +30,6 @@ In the project we also explored `direct deployment`, `containerized deployment` 
 - a [Stripe API Secret Key](https://support.stripe.com/questions/locate-api-keys-in-the-dashboard)
 - [Stripe cli](https://stripe.com/docs/stripe-cli) - if you want to run the application locally. Stripe cli can forward Stripe webhook event to your local endpoint
 
-```bash
-stripe listen --forward-to localhost:4242/stripe_webhooks
-```
-
 ### SendGrid
 
 - a SendGrid account
