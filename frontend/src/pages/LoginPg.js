@@ -12,10 +12,10 @@ export default function LoginPg() {
     localStorage.setItem('authType', 'JWT')
     signin(email, password)
   }
-  const handleVerify = (value) => {
-    console.log("Captcha value:", value);
+  const handleVerify = () => {
     setVerifed(true);
   }
+  
   return (
     <div className="container-sm p-4 mt-5">
         <div className="d-flex flex-row justify-content-center align-items-center">

@@ -6,8 +6,6 @@ const passport = require('passport')
 require('dotenv').config();
 const userModel = require('../models/userModel') 
 
-
-
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,

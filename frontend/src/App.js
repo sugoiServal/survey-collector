@@ -14,7 +14,7 @@ function App() {
   const { user, authIsReady } = useSubscribeAuthContext()
   return (
     <div className="App">
-      {authIsReady &&
+      {/* {authIsReady && */}
           <BrowserRouter>
             <Header />
             <div className="page">
@@ -52,7 +52,7 @@ function App() {
             </div>
           
           </BrowserRouter>
-        }
+        {/* } */}
     </div>
   );
 }

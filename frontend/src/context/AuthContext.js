@@ -24,7 +24,6 @@ export const AuthContextProvider = ({ children }) => {
     user: null,
     authIsReady: false
   })
-  
 
   useEffect(() => {
     const sessionUser = async () => {
